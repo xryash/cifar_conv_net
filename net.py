@@ -40,7 +40,10 @@ def net(x, biases, weights, dropout_rate):
     conv_3 = conv2d(conv_2, weights['w_conv_3'], biases['b_conv_3'])
     conv_3 = maxpool2d(conv_3, k=2)
 
-    flatt = flatten(conv_3)
+    conv_4 = conv2d(conv_3, weights['w_conv_4'], biases['b_conv_4'])
+    conv_4 = maxpool2d(conv_4, k=2)
+
+    flatt = flatten(conv_4)
 
     fully_connected_1 = full(flatt, weights['w_full_1'], biases['b_full_1'], activation_fn=tf.nn.relu, dropout_rate=dropout_rate)
 
@@ -50,6 +53,10 @@ def net(x, biases, weights, dropout_rate):
     fully_connected_3 = full(fully_connected_2, weights['w_full_3'], biases['b_full_3'], activation_fn=tf.nn.relu,
                              dropout_rate=dropout_rate)
 
-    out = full(fully_connected_3, weights['out'], biases['out'], activation_fn=None, dropout_rate=0.0)
+    fully_connected_4 = full(fully_connected_3, weights['w_full_4'], biases['b_full_4'], activation_fn=tf.nn.relu,
+                             dropout_rate=dropout_rate)
+
+
+    out = full(fully_connected_4, weights['out'], biases['out'], activation_fn=None, dropout_rate=0.0)
 
     return out
