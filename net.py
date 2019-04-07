@@ -5,6 +5,7 @@ def conv2d(x, W, b, strides=1):
     """Conv2d layer wrapper"""
     x = tf.nn.conv2d(x, W, strides=[1, strides, strides, 1], padding='SAME')
     x = tf.nn.bias_add(x, b)
+    x = tf.layers.batch_normalization(x)
     return tf.nn.relu(x)
 
 
@@ -29,7 +30,7 @@ def full(x, W, b, activation_fn=None, dropout_rate=0.2):
         return tf.nn.dropout(x, rate=dropout_rate)
 
 
-def net(x, biases, weights):
+def net(x, biases, weights, dropout_rate):
     conv_1 = conv2d(x, weights['w_conv_1'], biases['b_conv_1'])
     conv_1 = maxpool2d(conv_1, k=2)
 
@@ -41,13 +42,13 @@ def net(x, biases, weights):
 
     flatt = flatten(conv_3)
 
-    fully_connected_1 = full(flatt, weights['w_full_1'], biases['b_full_1'], activation_fn=tf.nn.relu, dropout_rate=0.2)
+    fully_connected_1 = full(flatt, weights['w_full_1'], biases['b_full_1'], activation_fn=tf.nn.relu, dropout_rate=dropout_rate)
 
     fully_connected_2 = full(fully_connected_1, weights['w_full_2'], biases['b_full_2'], activation_fn=tf.nn.relu,
-                             dropout_rate=0.2)
+                             dropout_rate=dropout_rate)
 
     fully_connected_3 = full(fully_connected_2, weights['w_full_3'], biases['b_full_3'], activation_fn=tf.nn.relu,
-                             dropout_rate=0.2)
+                             dropout_rate=dropout_rate)
 
     out = full(fully_connected_3, weights['out'], biases['out'], activation_fn=None, dropout_rate=0.0)
 
