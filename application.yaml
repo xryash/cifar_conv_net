@@ -1,0 +1,34 @@
+
+hyperparams:
+  epochs: 30
+  learning_rate: 0.003
+  batch_size: 128
+  model_replica_path: tmp/model.ckpt
+  dropout_rate: 0.5
+  label_names: [
+  airplane,
+  automobile,
+  bird,
+  cat,
+  deer,
+  dog,
+  frog,
+  horse,
+  ship,
+  truck
+  ]
+
+datasets:
+  cifar10_dataset_folder_path: data/cifar/
+  new_folder_path: data/
+  ratio: 0.15
+  preprocessed_test_file_name: preprocessed_test
+  preprocessed_train_file_name: preprocessed_train
+  files: [
+  data_batch_1,
+  data_batch_2,
+  data_batch_3,
+  data_batch_4,
+  data_batch_5,
+  test_batch
+  ]
